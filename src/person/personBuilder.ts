@@ -1,4 +1,6 @@
 import { faker, Faker } from '@faker-js/faker';
+import { en_GB, en_US, de, fr, es, it } from '@faker-js/faker';
+import { en, base } from './faker-locales';
 import { Person, PersonName, PersonAddress } from "../types/person.types";
 
 type PersonBuilderOptions = {
@@ -21,27 +23,28 @@ class PersonBuilder {
     }
 
     private createFakerInstance(): Faker {
-        // Import the specific locale dynamically or use default
+        // Import the specific locale with fallbacks
         try {
             switch (this.locale) {
                 case 'en_US':
-                    return new Faker({ locale: require('@faker-js/faker/locale/en_US') });
+                    return new Faker({ locale: [en_US, en_GB, en, base] });
                 case 'en_GB':
-                    return new Faker({ locale: require('@faker-js/faker/locale/en_GB') });
+                    return new Faker({ locale: [en_GB, en_US, en, base] });
                 case 'de':
-                    return new Faker({ locale: require('@faker-js/faker/locale/de') });
+                    return new Faker({ locale: [de, en_GB, en, base] });
                 case 'fr':
-                    return new Faker({ locale: require('@faker-js/faker/locale/fr') });
+                    return new Faker({ locale: [fr, en_GB, en, base] });
                 case 'es':
-                    return new Faker({ locale: require('@faker-js/faker/locale/es') });
+                    return new Faker({ locale: [es, en_GB, en, base] });
                 case 'it':
-                    return new Faker({ locale: require('@faker-js/faker/locale/it') });
+                    return new Faker({ locale: [it, en_GB, en, base] });
                 default:
-                    return faker;
+                    return new Faker({ locale: [en_GB, en, base] });
             }
-        } catch {
-            // If locale import fails, fallback to default faker
-            return faker;
+        } catch (error) {
+            // If locale import fails, fallback to en_GB, en, base
+            console.warn(`Failed to load locale ${this.locale}, falling back to en_GB`, error);
+            return new Faker({ locale: [en_GB, en, base] });
         }
     }
 

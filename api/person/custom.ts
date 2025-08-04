@@ -41,7 +41,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     } = parseQueryParams(req.query);
     
     const persons = Array.from({ length: Math.min(count, 10) }, () => {
-      let builder = new PersonBuilder({ locale, useRandomDefaults });
+      let builder = new PersonBuilder({ locale: locale || 'en_GB', useRandomDefaults });
       
       // Apply custom parameters
       if (forename) builder.setForename(forename);

@@ -1,6 +1,9 @@
-import { faker } from '@faker-js/faker/locale/en_GB';
+import { Faker, en_GB } from '@faker-js/faker';
 import { Person, PersonWithAge } from '../types/person.types';
 import { addAge } from '../utils/person.utils';
+
+// Create a faker instance with UK locale
+const fakerGB = new Faker({ locale: [en_GB] });
 
 /**
  * Generate a random person with basic information
@@ -8,16 +11,16 @@ import { addAge } from '../utils/person.utils';
 export const createPerson = (): Person => {
     return {
         name: {
-            forename: faker.person.firstName(),
-            surname: faker.person.lastName()
+            forename: fakerGB.person.firstName(),
+            surname: fakerGB.person.lastName()
         },
-        dateOfBirth: faker.date.birthdate(),
+        dateOfBirth: fakerGB.date.birthdate(),
         address: {
-            houseNumber: faker.location.buildingNumber(),
-            street: faker.location.street(),
-            town: faker.location.county(),
-            city: faker.location.city(),
-            postcode: faker.location.zipCode()
+            houseNumber: fakerGB.location.buildingNumber(),
+            street: fakerGB.location.street(),
+            town: fakerGB.location.county(),
+            city: fakerGB.location.city(),
+            postcode: fakerGB.location.zipCode()
         }
     };
 };

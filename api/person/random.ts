@@ -5,7 +5,7 @@ import { calculateAge } from '../../src/utils/person.utils';
 // Helper function to parse query parameters
 function parseQueryParams(query: any) {
   return {
-    locale: query.locale as string || 'en_GB',
+    locale: (query.locale as string) || 'en_GB',
     count: parseInt(query.count as string) || 1,
     minAge: query.minAge ? parseInt(query.minAge as string) : undefined,
     maxAge: query.maxAge ? parseInt(query.maxAge as string) : undefined,
@@ -30,7 +30,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     
     // Generate multiple random persons
     const persons = Array.from({ length: Math.min(count, 10) }, () => {
-      const person = PersonBuilder.random(locale).build();
+      const person = PersonBuilder.random(locale || 'en_GB').build();
       return addAgeIfRequested(person, includeAge);
     });
 

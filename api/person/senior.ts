@@ -4,7 +4,7 @@ import { calculateAge } from '../../src/utils/person.utils';
 
 function parseQueryParams(query: any) {
   return {
-    locale: query.locale as string || 'en_GB',
+    locale: (query.locale as string) || 'en_GB',
     count: parseInt(query.count as string) || 1,
     minAge: query.minAge ? parseInt(query.minAge as string) : 65,
     includeAge: query.includeAge === 'true'
@@ -26,7 +26,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     const { locale, count, minAge, includeAge } = parseQueryParams(req.query);
     
     const persons = Array.from({ length: Math.min(count, 10) }, () => {
-      const person = PersonBuilder.senior(minAge, locale).build();
+      const person = PersonBuilder.senior(minAge, locale || 'en_GB').build();
       return addAgeIfRequested(person, includeAge);
     });
 
